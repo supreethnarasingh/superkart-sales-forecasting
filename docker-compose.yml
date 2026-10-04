@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-v2
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./backend:/app
+    networks:
+      - superkart-network
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-v2
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - superkart-network
+    depends_on:
+      - backend
+    restart: always
+
+networks:
+  superkart-network:
+    driver: bridge
